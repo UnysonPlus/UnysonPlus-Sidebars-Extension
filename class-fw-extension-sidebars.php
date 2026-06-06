@@ -148,7 +148,10 @@ class FW_Extension_Sidebars extends FW_Extension {
 				array( 'fw-events', 'jquery', 'jquery-ui-autocomplete', 'fw' ),
 				fw()->manifest->get_version()
 			);
-			wp_localize_script( 'fw-extension-' . $this->get_name() . '-autocomplete-js', 'noMatchesFoundMsg', array( 'noMatchesFoundMsg' => __( 'No matches found', 'fw' ) ) );
+			wp_localize_script( 'fw-extension-' . $this->get_name() . '-autocomplete-js', 'noMatchesFoundMsg', array(
+				'noMatchesFoundMsg' => __( 'No matches found', 'fw' ),
+				'nonce'             => wp_create_nonce( 'fw_sidebars' ),
+			) );
 
 			wp_enqueue_script( 'fw-extension-' . $this->get_name() . '-general-js',
 				$this->get_declared_URI( '/static/js/sidebar-general.js' ),
@@ -167,6 +170,7 @@ class FW_Extension_Sidebars extends FW_Extension {
 				'newSidebarLabel'       => __( 'New Sidebar', 'fw' ),
 				'addSidebarButtonTxt'   => __( 'Add', 'fw' ),
 				'msgToConfirmDelete'    => __( 'Are you sure you want to delete it?', 'fw' ),
+				'nonce'                 => wp_create_nonce( 'fw_sidebars' ),
 			) );
 		}
 	}
@@ -175,6 +179,7 @@ class FW_Extension_Sidebars extends FW_Extension {
 	 * @internal
 	 */
 	public function _admin_action_delete_sidebar_ajax() {
+		check_ajax_referer( 'fw_sidebars', '_nonce' );
 		$sidebar_id = FW_Request::POST( 'sidebar' );
 		$result     = $this->backend->delete_sidebar( $sidebar_id );
 		$this->ajax_response( $result );
@@ -184,6 +189,7 @@ class FW_Extension_Sidebars extends FW_Extension {
 	 * @internal
 	 */
 	public function _admin_action_load_sidebar_preset_ajax() {
+		check_ajax_referer( 'fw_sidebars', '_nonce' );
 		$params = FW_Request::POST( 'params' );
 		$result = $this->backend->get_preset( $params );
 		$this->ajax_response( $result );
@@ -193,6 +199,7 @@ class FW_Extension_Sidebars extends FW_Extension {
 	 * @internal
 	 */
 	public function _admin_action_remove_sidebar_preset_ajax() {
+		check_ajax_referer( 'fw_sidebars', '_nonce' );
 		$args   = FW_Request::POST( 'data' );
 		$result = $this->backend->remove_preset( $args );
 		$this->ajax_response( $result );
@@ -202,6 +209,7 @@ class FW_Extension_Sidebars extends FW_Extension {
 	 * @internal
 	 */
 	public function _admin_action_save_sidebar_preset_ajax() {
+		check_ajax_referer( 'fw_sidebars', '_nonce' );
 		$settings = FW_Request::POST( 'settings' );
 		$result   = $this->backend->save_sidebar_settings( $settings );
 		$this->ajax_response( $result );
@@ -211,6 +219,7 @@ class FW_Extension_Sidebars extends FW_Extension {
 	 * @internal
 	 */
 	public function _admin_action_sidebar_autocomplete_ajax() {
+		check_ajax_referer( 'fw_sidebars', '_nonce' );
 		$search_type = FW_Request::POST( 'searchType' );
 		$search_term = FW_Request::POST( 'searchTerm' );
 
@@ -292,6 +301,7 @@ class FW_Extension_Sidebars extends FW_Extension {
 	 * @internal
 	 */
 	public function _admin_action_add_new_sidebar_ajax() {
+		check_ajax_referer( 'fw_sidebars', '_nonce' );
 		$name   = FW_Request::POST( 'name' );
 		$result = $this->backend->save_new_sidebar( $name );
 		$this->ajax_response( $result );

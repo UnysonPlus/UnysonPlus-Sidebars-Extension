@@ -11,7 +11,7 @@ $manifest['description'] = __(
     'fw'
 );
 
-$manifest['version']     = '1.0.21';
+$manifest['version']     = '1.0.23';
 $manifest['display']     = true;
 $manifest['standalone']  = true;
 
@@ -35,3 +35,15 @@ $manifest['license']      = 'GPL-2.0-or-later';
 $manifest['text_domain']  = 'fw';
 $manifest['requires_php'] = '7.4';
 $manifest['requires_wp']  = '5.8';
+
+/**
+ * Changelog
+ * -----------------------------------------------------------------------------
+ * 1.0.23 - Security: added CSRF nonce protection to all 6 Sidebars AJAX
+ *          endpoints (add_new / autocomplete / save_preset / remove_preset /
+ *          delete / load_preset). Nonces localized via existing PhpVar and
+ *          noMatchesFoundMsg objects; JS callers updated to send `_nonce`
+ *          field; PHP handlers verify via check_ajax_referer( 'fw_sidebars' ).
+ *          Blocks CSRF-driven sidebar manipulation from an authenticated
+ *          editor's session.
+ */

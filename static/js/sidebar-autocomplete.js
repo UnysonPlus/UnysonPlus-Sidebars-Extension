@@ -16,6 +16,7 @@
 					dataType: "json",
 					data: {
 						action: 'sidebar_autocomplete_ajax',
+						_nonce: (typeof noMatchesFoundMsg !== 'undefined' ? noMatchesFoundMsg.nonce : ''),
 						searchTerm: request.term,
 						searchType: searchTypeSlug
 					},

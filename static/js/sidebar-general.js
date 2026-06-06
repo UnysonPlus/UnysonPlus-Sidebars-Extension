@@ -215,6 +215,7 @@ var fwSidebars;
 		saveGroupedTabPresetAjax: function (groupedPagesData) {
 			var data = {
 				action: 'save_sidebar_preset_ajax',
+				_nonce: (typeof PhpVar !== 'undefined' ? PhpVar.nonce : ''),
 				settings: groupedPagesData
 			}
 
@@ -259,6 +260,7 @@ var fwSidebars;
 
 			var data = {
 				action: 'save_sidebar_preset_ajax',
+				_nonce: (typeof PhpVar !== 'undefined' ? PhpVar.nonce : ''),
 				settings: specificPagesData
 			}
 
@@ -327,6 +329,7 @@ var fwSidebars;
 
 			var data = {
 				action: 'remove_sidebar_preset_ajax',
+				_nonce: (typeof PhpVar !== 'undefined' ? PhpVar.nonce : ''),
 				data: removePresetData
 			};
 
@@ -373,6 +376,7 @@ var fwSidebars;
 		loadingPresetAjax: function (tabIndex, presetId, slug) {
 			var data = {
 				action: 'load_sidebar_preset_ajax',
+				_nonce: (typeof PhpVar !== 'undefined' ? PhpVar.nonce : ''),
 				params: {
 					preset: presetId,
 					slug: slug
@@ -500,7 +504,7 @@ var fwSidebars;
 
 			var $sidebarElem = data.$this.parent().parent(),
 				sidebarId    = $sidebarElem.attr( 'id' ),
-				postData     = {action: 'delete_sidebar_ajax', sidebar: sidebarId};
+				postData     = {action: 'delete_sidebar_ajax', _nonce: (typeof PhpVar !== 'undefined' ? PhpVar.nonce : ''), sidebar: sidebarId};
 
 			if ( $sidebarElem.data( 'blocked' ) ) {
 				return false;
@@ -587,6 +591,7 @@ var fwSidebars;
 
 			var data = {
 				action: 'add_new_sidebar_ajax',
+				_nonce: (typeof PhpVar !== 'undefined' ? PhpVar.nonce : ''),
 				name: sidebarName
 			};
 
