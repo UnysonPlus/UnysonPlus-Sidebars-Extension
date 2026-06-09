@@ -138,13 +138,13 @@ class FW_Extension_Sidebars extends FW_Extension {
 		if ( 'widgets.php' === $hook ) {
 			wp_enqueue_style(
 				'fw-extension-' . $this->get_name() . '-css',
-				$this->get_declared_URI( '/static/css/sidebar.css' ),
+				fw_min_uri($this->get_declared_URI( '/static/css/sidebar.css' )),
 				array( 'fw', 'fw-selectize', 'fw-backend-options' ),
 				fw()->manifest->get_version()
 			);
 
 			wp_enqueue_script( 'fw-extension-' . $this->get_name() . '-autocomplete-js',
-				$this->get_declared_URI( '/static/js/sidebar-autocomplete.js' ),
+				fw_min_uri($this->get_declared_URI( '/static/js/sidebar-autocomplete.js' )),
 				array( 'fw-events', 'jquery', 'jquery-ui-autocomplete', 'fw' ),
 				fw()->manifest->get_version()
 			);
@@ -154,7 +154,7 @@ class FW_Extension_Sidebars extends FW_Extension {
 			) );
 
 			wp_enqueue_script( 'fw-extension-' . $this->get_name() . '-general-js',
-				$this->get_declared_URI( '/static/js/sidebar-general.js' ),
+				fw_min_uri($this->get_declared_URI( '/static/js/sidebar-general.js' )),
 				array( 'fw-events', 'jquery', 'fw', 'fw-selectize', 'jquery-ui-tabs' ),
 				fw()->manifest->get_version()
 			);
