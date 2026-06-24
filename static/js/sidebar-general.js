@@ -23,12 +23,9 @@ var fwSidebars;
 				//todo: ajax manager
 				if ( ! fwSidebars.isBusy ) {
 
-					var ask = confirm( PhpVar.msgToConfirmDelete );
-					if ( ! ask ) {
-						return false;
-					}
-
-					fwSidebars.removeSidebarAjax( data );
+					fw.confirm( PhpVar.msgToConfirmDelete, function () {
+						fwSidebars.removeSidebarAjax( data );
+					} );
 				}
 				data.event.stopPropagation();
 			} );
@@ -585,7 +582,7 @@ var fwSidebars;
 		 */
 		createNewSidebarAjax: function (sidebarName, $currentSelectize) {
 			if (!sidebarName) {
-				alert(PhpVar.missingSidebarName);
+				fw.notify(PhpVar.missingSidebarName, 'warning');
 				return false;
 			}
 
@@ -605,7 +602,7 @@ var fwSidebars;
 						$currentSelectize: $currentSelectize
 					});
 				} else {
-					alert(response.data.message);
+					fw.notify(response.data.message, 'error');
 				}
 			}).fail(function () {
 				$spinner.hide();
