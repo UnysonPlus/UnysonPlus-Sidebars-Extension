@@ -139,7 +139,7 @@ class FW_Extension_Sidebars extends FW_Extension {
 			wp_enqueue_style(
 				'fw-extension-' . $this->get_name() . '-css',
 				fw_min_uri($this->get_declared_URI( '/static/css/sidebar.css' )),
-				array( 'fw', 'fw-selectize', 'fw-backend-options' ),
+				array( 'fw', 'fw-select', 'fw-backend-options' ),
 				fw()->manifest->get_version()
 			);
 
@@ -155,7 +155,7 @@ class FW_Extension_Sidebars extends FW_Extension {
 
 			wp_enqueue_script( 'fw-extension-' . $this->get_name() . '-general-js',
 				fw_min_uri($this->get_declared_URI( '/static/js/sidebar-general.js' )),
-				array( 'fw-events', 'jquery', 'fw', 'fw-selectize', 'jquery-ui-tabs' ),
+				array( 'fw-events', 'jquery', 'fw', 'fw-select', 'jquery-ui-tabs' ),
 				fw()->manifest->get_version()
 			);
 			wp_localize_script( 'fw-extension-' . $this->get_name() . '-general-js', 'PhpVar', array(
@@ -277,7 +277,7 @@ class FW_Extension_Sidebars extends FW_Extension {
 			'specific_options'       => $specific_options, //options for select specific page tab
 			'created_sidebars'       => $created_sidebars, //used for removable items on created tab
 			'data_positions_options' => $this->get_data_positions_options(), //used for image-picker
-			'sidebars'               => $sidebars, //used for selectize options on grouped and specific tabs
+			'sidebars'               => $sidebars, //used for the select options on grouped and specific tabs
 		) );
 	}
 

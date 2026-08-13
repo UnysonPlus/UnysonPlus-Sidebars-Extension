@@ -67,11 +67,11 @@ div.wrap br.clear {
 	user-select: none;
 }
 
-.fw-ext-sidebars-wrap .selectize-control.single .selectize-input input {
+.fw-ext-sidebars-wrap .fw-select.single .fw-select-control input {
 	display: none;
 }
 
-.fw-ext-sidebars-wrap .selectize-control.single .selectize-input.input-active {
+.fw-ext-sidebars-wrap .fw-select.single .fw-select-control.input-active {
 	cursor: default !important;
 }
 
@@ -293,7 +293,7 @@ div.wrap br.clear {
 	width: 100%;
 }
 
-/* selectize styles */
+/* select control styles */
 
 #fw-ext-sidebars-new-sidebar-container {
 	padding: 15px 10px;
@@ -334,7 +334,7 @@ div.wrap br.clear {
 	margin: 25px 0 0 0;
 }
 
-.fw-ext-sidebars-wrap .selectize-dropdown.dropdown-top {
+.fw-ext-sidebars-wrap .fw-select-dropdown.dropdown-top {
 	top: auto !important;
 	bottom: 35px;
 }
@@ -354,23 +354,23 @@ div.wrap br.clear {
 	box-sizing: border-box;
 }
 
-.fw-ext-sidebars-wrap .selectize-input {
+.fw-ext-sidebars-wrap .fw-select-control {
 	padding: 5px 8px;
 	line-height: 16px;
 }
 
-.fw-ext-sidebars-wrap .selectize-input .item {
+.fw-ext-sidebars-wrap .fw-select-control .item {
 	overflow: hidden;
 	width: 90% !important;
 	padding-top: 2px;
 }
 
-.fw-ext-sidebars-wrap .selectize-dropdown-content .selectize-item {
+.fw-ext-sidebars-wrap .fw-select-dropdown-content .fw-select-render-item {
 	padding-top: 4px;
 	padding-bottom: 10px;
 }
 
-.fw-ext-sidebars-wrap .selectize-dropdown .active {
+.fw-ext-sidebars-wrap .fw-select-dropdown .active {
 	background: none;
 }
 
@@ -384,8 +384,8 @@ div.wrap br.clear {
 }
 
 #fw-ext-sidebars-new-sidebar-label,
-.fw-ext-sidebars-wrap .selectize-item,
-.fw-ext-sidebars-wrap .selectize-input,
+.fw-ext-sidebars-wrap .fw-select-render-item,
+.fw-ext-sidebars-wrap .fw-select-control,
 .fw-ext-sidebars-wrap select {
 	font-weight: bold;
 }
@@ -413,7 +413,7 @@ div.wrap br.clear {
 	margin-right: 0px;
 }
 
-.fw-ext-sidebars-wrap .dropdown-top .selectize-dropdown-content .selectize-item:first-child {
+.fw-ext-sidebars-wrap .dropdown-top .fw-select-dropdown-content .fw-select-render-item:first-child {
 	padding-top: 8px;
 }
 
@@ -446,11 +446,11 @@ div.wrap br.clear {
 }
 
 /* (i) tips */
-.qtip.qtip-fw-info-sidebars {
+.fw-tooltip.fw-tooltip-info-sidebars {
 	max-width: 320px;
 }
 
-.qtip.qtip-fw-info-sidebars .qtip-content {
+.fw-tooltip.fw-tooltip-info-sidebars .fw-tooltip-content {
 	padding: 15px;
 }
 /* end: (i) tips */

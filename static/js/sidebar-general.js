@@ -57,7 +57,7 @@ var fwSidebars;
 				return false;
 			}
 
-			fwSidebars.selectizeInit();
+			fwSidebars.selectInit();
 			fwSidebars.showPositions();
 
 			fwEvents.on('fw:sidebars:created-tab:recalculate', function (data) {
@@ -72,8 +72,8 @@ var fwSidebars;
 				}
 			});
 
-			fwEvents.on('fw:sidebars:selectize:change:value', function (data) {
-				data.$tab.find('.' + data.color).find('select.sidebar-selectize').data('selectize').setValue(data.sidebar);
+			fwEvents.on('fw:sidebars:change:value', function (data) {
+				data.$tab.find('.' + data.color).find('select.sidebar-select').data('fwSelect').setValue(data.sidebar);
 			});
 
 			fwEvents.on('fw:sidebars:create:sidebar:success', function (data) {
@@ -113,7 +113,7 @@ var fwSidebars;
 			});
 
 			/**
-			 * on change image-picker show selectize block by colors
+			 * on change image-picker show the select block by colors
 			 */
 			$('.fw-ext-sidebars-positions.fw-option-type-image-picker')
 				.on('fw:option-type:image-picker:changed', function (e, data) {
@@ -241,7 +241,7 @@ var fwSidebars;
 				} else {
 					if (response.data.colors) {
 						response.data.colors.forEach(function (color) {
-							fwSidebars.getCurrentTab().find('.fw-ext-sidebars-location.' + color + ' .selectize-input').addClass('fw-ext-sidebars-error');
+							fwSidebars.getCurrentTab().find('.fw-ext-sidebars-location.' + color + ' .fw-select-control').addClass('fw-ext-sidebars-error');
 						});
 					}
 				}
@@ -287,7 +287,7 @@ var fwSidebars;
 				} else {
 					if (response.data.colors) {
 						response.data.colors.forEach(function (color) {
-							fwSidebars.getCurrentTab().find('.fw-ext-sidebars-location.' + color + ' .selectize-input').addClass('fw-ext-sidebars-error');
+							fwSidebars.getCurrentTab().find('.fw-ext-sidebars-location.' + color + ' .fw-select-control').addClass('fw-ext-sidebars-error');
 						});
 					}
 				}
@@ -338,7 +338,7 @@ var fwSidebars;
 					$elem.parent().parent().remove();
 					fwSidebars.recalculateCreatedTab();
 				} else {
-					fwSidebars.initQTip($elem);
+					fwSidebars.initTooltip($elem);
 					fwSidebars.showTip($elem, response.data.message)
 				}
 
@@ -412,7 +412,7 @@ var fwSidebars;
 					}
 
 					$.each(response.data.preset.sidebars, function (color, sidebar) {
-						fwEvents.trigger('fw:sidebars:selectize:change:value', {
+						fwEvents.trigger('fw:sidebars:change:value', {
 							color: color,
 							sidebar: sidebar,
 							$tab: fwSidebars.getSidebarTab(tabIndex)
@@ -483,7 +483,7 @@ var fwSidebars;
 			var deleteBtn = $( '.fw-ext-sidebars-delete-button' );
 
 			deleteBtn.each( function () {
-				fwSidebars.initQTip( $( this ) );
+				fwSidebars.initTooltip( $( this ) );
 			} );
 
 			deleteBtn.on( 'click', function ( e ) {
@@ -580,7 +580,7 @@ var fwSidebars;
 		/**
 		 * Create new sidebar ajax
 		 */
-		createNewSidebarAjax: function (sidebarName, $currentSelectize) {
+		createNewSidebarAjax: function (sidebarName, currentSelect) {
 			if (!sidebarName) {
 				fw.notify(PhpVar.missingSidebarName, 'warning');
 				return false;
@@ -599,7 +599,7 @@ var fwSidebars;
 				if (response.success) {
 					fwEvents.trigger('fw:sidebars:create:sidebar:success', {
 						sidebar: response.data.sidebar,
-						$currentSelectize: $currentSelectize
+						currentSelect: currentSelect
 					});
 				} else {
 					fw.notify(response.data.message, 'error');
@@ -634,8 +634,8 @@ var fwSidebars;
 			//remove specific pages ids
 			$currentTab.find('.sidebars-specific-pages div').remove();
 
-			$currentTab.find('select.sidebar-selectize').each(function () {
-				$(this).data('selectize').setDefaultValue();
+			$currentTab.find('select.sidebar-select').each(function () {
+				$(this).data('fwSelect').setDefaultValue();
 			});
 
 			var defaultValue = $currentTab.find('.fw-ext-sidebars-positions select option:nth(0)').val();
@@ -683,8 +683,8 @@ var fwSidebars;
 		/**
 		 *  Init error popup messages
 		 */
-		initQTip: function ($elem) {
-			$elem.qtip({
+		initTooltip: function ($elem) {
+			$elem.fwTooltip({
 				id: 'r' + Math.random(),
 				position: {
 					at: 'top center',
@@ -692,7 +692,7 @@ var fwSidebars;
 					viewport: $(document.body)
 				},
 				style: {
-					classes: 'qtip-fw qtip-fw-info-sidebars',
+					classes: 'fw-tooltip-default fw-tooltip-info-sidebars',
 					tip: {
 						width: 12,
 						height: 5
@@ -718,102 +718,44 @@ var fwSidebars;
 			}, 5000)
 		},
 
-		selectizeInit: function () {
+		selectInit: function () {
 			fwEvents.on('fw:sidebars:create:sidebar:success', function (data) {
-				$('select.sidebar-selectize').each(function () {
-					$(this).data('selectize').addOption({value: data.sidebar.id, text: data.sidebar.name});
+				$('select.sidebar-select').each(function () {
+					$(this).data('fwSelect').addOption({value: data.sidebar.id, text: data.sidebar.name});
 				});
 
-				if (data.$currentSelectize) {
-					data.$currentSelectize.setValue(data.sidebar.id);
+				if (data.currentSelect) {
+					data.currentSelect.setValue(data.sidebar.id);
 				}
 			});
 
-			fwEvents.on('fw:sidebars:selectize:input', function (data) {
+			fwEvents.on('fw:sidebars:input-focus', function (data) {
 				$('#' + data.event.target.id).focus();
 			});
 
-			fwEvents.on('fw:sidebars:selectize:new-sidebar-submit', function (data) {
+			fwEvents.on('fw:sidebars:new-sidebar-submit', function (data) {
 				var name = $('#fw-ext-sidebars-new-sidebar-name').val();
-				//hide selectize dropdown before submit
-				data.selectize.onBlur.apply(data.selectize, arguments);
-				fwSidebars.createNewSidebarAjax(name, data.selectize);
+				// close the dropdown before submitting
+				data.instance.close();
+				fwSidebars.createNewSidebarAjax(name, data.instance);
 			})
 
 			fwEvents.on('fw:sidebars:remove:sidebar:success', function (data) {
 				if (!data.sidebarId.length) return false;
 
-				$('select.sidebar-selectize').each(function () {
-					$(this).data('selectize').removeOption(data.sidebarId);
-					$(this).data('selectize').setDefaultValue();
+				$('select.sidebar-select').each(function () {
+					$(this).data('fwSelect').removeOption(data.sidebarId);
+					$(this).data('fwSelect').setDefaultValue();
 				});
 
 			});
 
-			Selectize.define('fw_sidebars_selectize_plugin', function (options) {
-				var self = this;
-				this.setup = (function () {
-					var original = self.setup;
-					return function () {
-						original.apply(this, arguments);
-						var eventNS = self.eventNS;
-						this.$control_input.unbind('blur');
-						$(document).unbind('mousedown' + eventNS);
-						$(document).on('mousedown' + eventNS, function (e) {
-							if (self.isFocused) {
-
-								if (e.target.id === 'fw-ext-sidebars-new-sidebar-name' || e.target.id === 'fw-ext-sidebars-new-sidebar-label') {
-									fwEvents.trigger('fw:sidebars:selectize:input', {event: e, selectize: self});
-									return false;
-								}
-
-								if (e.target.id === 'fw-ext-sidebars-new-sidebar-submit') {
-									fwEvents.trigger('fw:sidebars:selectize:new-sidebar-submit', {
-										event: e,
-										selectize: self
-									});
-									return false;
-								}
-
-								if (e.target === self.$dropdown[0] || e.target.parentNode === self.$dropdown[0]) {
-									return false;
-								}
-
-								if (!self.$control.has(e.target).length && e.target !== self.$control[0]) {
-									self.onBlur.apply(self, arguments);
-								}
-							}
-						});
-
-					};
-				})();
-				//method set default value
-				this.setDefaultValue = function () {
-					var $option = null;
-					var options = this.options;
-
-					for (var i in options) {
-						if (options.hasOwnProperty(i)) {
-							$option = options[i];
-							break;
-						}
-					}
-
-					if ($option) {
-						this.setValue($option.value);
-					} else {
-						this.setValue('');
-					}
-				}
-
-			});
-
-			$('.sidebar-selectize').each(function () {
-				$(this).selectize({
-					plugins: ['fw_sidebars_selectize_plugin'],
+			$('.sidebar-select').each(function () {
+				$(this).fwSelect({
+					
 					render: {
 						option: function (item) {
-							return '<div class="selectize-item">' + item.text + '</div>';
+							return '<div class="fw-select-render-item">' + item.text + '</div>';
 						}
 					},
 
@@ -835,15 +777,35 @@ var fwSidebars;
 
 						$('#fw-ext-sidebars-new-sidebar-name').on('keyup', function (event) {
 							if (event.keyCode == 13) {
-								fwEvents.trigger('fw:sidebars:selectize:new-sidebar-submit', {
+								fwEvents.trigger('fw:sidebars:new-sidebar-submit', {
 									event: event,
-									selectize: self
+									instance: self
 								});
 							}
 						});
 
-						var selectOffset = parseInt($dropdown.closest('.selectize-control').offset().top - $(document).scrollTop(), 10),
-							selectHeight = $dropdown.closest('.selectize-control').height(),
+						/**
+						 * These two used to come from a custom plugin that intercepted
+						 * document mousedown to stop the control blurring. The control
+						 * now ignores clicks inside its own dropdown natively, so only
+						 * the notifications remain.
+						 */
+						$('#fw-ext-sidebars-new-sidebar-submit').on('click', function (event) {
+							fwEvents.trigger('fw:sidebars:new-sidebar-submit', {
+								event: event,
+								instance: self
+							});
+						});
+
+						$('#fw-ext-sidebars-new-sidebar-name').on('focus', function (event) {
+							fwEvents.trigger('fw:sidebars:input-focus', {
+								event: event,
+								instance: self
+							});
+						});
+
+						var selectOffset = parseInt($dropdown.closest('.fw-select').offset().top - $(document).scrollTop(), 10),
+							selectHeight = $dropdown.closest('.fw-select').height(),
 							dropdownHeight = $dropdown.height();
 
 						if (selectOffset + selectHeight + dropdownHeight > $(window).height()) {
@@ -1029,7 +991,7 @@ var fwSidebars;
 				$newElement.toggleClass('closed');
 			});
 
-			fwSidebars.initQTip($newElement.find('.fw-ext-sidebars-delete-button'));
+			fwSidebars.initTooltip($newElement.find('.fw-ext-sidebars-delete-button'));
 
 			$newElement.find('.fw-ext-sidebars-delete-button').on('click', function (e) {
 				fwEvents.trigger('fw:sidebars:remove:sidebar:click', {$this: $(this), event: e});

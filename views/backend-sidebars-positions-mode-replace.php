@@ -15,7 +15,7 @@
 			<div class="fw-ext-sidebars-location empty <?php echo esc_attr($id)?> <?php echo esc_attr($color);?>" data-color="<?php echo esc_attr($color);?>">
 				<?php $short_sidebar_name = strlen($sidebars[$sidebar_id]->get_name()) > 20 ? mb_substr($sidebars[$sidebar_id]->get_name(), 0, 20) . '...' : $sidebars[$sidebar_id]->get_name();  ?>
 				<small class="fw-ext-sidebars-placeholder-title"><?php echo __(sprintf('Replace %s with:', $short_sidebar_name ), 'fw') ?></small>
-				<select class="sidebar-selectize <?php echo esc_attr($id); ?>-select">
+				<select class="sidebar-select <?php echo esc_attr($id); ?>-select">
 					<?php if (isset($sidebars) and is_array($sidebars)) :?>
 						<?php foreach($sidebars as $sidebar):?>
 							<option value="<?php echo esc_attr($sidebar->get_id()) ?>"><?php echo $sidebar->get_name(); ?></option>

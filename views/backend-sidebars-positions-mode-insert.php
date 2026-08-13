@@ -26,7 +26,7 @@
 <div class="placeholders fw-insert-mode fw-col-sm-8 fw-col-sm-offset-4 fw-col-md-9 fw-col-md-offset-3 fw-col-lg-10 fw-col-lg-offset-2">
 	<?php foreach($colors as $color) : ?>
 		<div class="fw-ext-sidebars-location empty <?php echo esc_attr($id)?> <?php echo esc_attr($color);?>" data-color="<?php echo esc_attr($color);?>">
-			<select class="sidebar-selectize <?php echo esc_attr($id) ?>-select">
+			<select class="sidebar-select <?php echo esc_attr($id) ?>-select">
 				<?php if (isset($sidebars) and is_array($sidebars)) :?>
 					<?php foreach($sidebars as $sidebar):?>
 						<option value="<?php echo esc_attr($sidebar->get_id()) ?>"><?php echo $sidebar->get_name(); ?></option>
