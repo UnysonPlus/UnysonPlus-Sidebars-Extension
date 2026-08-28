@@ -1,10 +1,13 @@
 <?php if (!defined('FW')) die('Forbidden');
 
 /**
+ * Returns the rendered sidebar HTML for the given sidebar color, or a warning message.
+ *
  * Returns the sidebar HTML or warning message
  *
  * @param $color look in _FW_Extension_Sidebars_Config::$allowed_colors
  */
+/** Returns the rendered sidebar HTML for the given sidebar color, or a warning message. */
 function fw_ext_sidebars_show($color)
 {
 	return fw()->extensions->get('sidebars')->render_sidebar($color);

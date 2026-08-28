@@ -121,6 +121,7 @@ class _FW_Extension_Sidebars_Config
 		$this->config['sidebar_positions']    = fw_akg('sidebar_positions', $user_config, array() );
 		$this->config['dynamic_sidebar_args'] = fw_akg('dynamic_sidebar_args', $user_config, array() );
 		$this->config = array_merge($this->config, $this->get_config_defaults());
+		/** Filters the list of conditional tags available for assigning dynamic sidebar replacement rules. */
 		$this->config['select_options']['conditional_tags'] = apply_filters('fw_ext_sidebars_conditional_tags', $this->config['select_options']['conditional_tags']);
 		$this->_fw_set_conditional_tags_defaults($this->config['select_options']['conditional_tags']);
 
@@ -225,6 +226,7 @@ class _FW_Extension_Sidebars_Config
 	}
 
 	private function get_taxonomies(){
+		/** Filters the public taxonomies offered as targets when configuring sidebar replacement conditions. */
 		return apply_filters( 'fw_ext_sidebars_taxonomies',
 			get_taxonomies(array(
 				'public' => true
@@ -233,6 +235,7 @@ class _FW_Extension_Sidebars_Config
 	}
 
 	private function get_post_types() {
+		/** Filters the public post types offered as targets when configuring sidebar replacement conditions. */
 		return apply_filters( 'fw_ext_sidebars_post_types',
 			get_post_types(array(
 				'public' => true
